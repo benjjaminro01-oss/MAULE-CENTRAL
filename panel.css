@@ -1,4 +1,4 @@
-/* Maule Central CG · panel v1.3.3 */
+/* Maule Central CG · panel v1.3.4 */
 :root{--az:#1B2A49;--ro:#C8102E;--am:#F5A623;--gr:#E5E7EB;--bg:#0e1524;--f:Arial,"Helvetica Neue",sans-serif}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--gr);font:15px var(--f);padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}

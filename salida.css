@@ -1,4 +1,4 @@
-/* Maule Central CG · salida v1.3.3 · 1920x1080 transparente */
+/* Maule Central CG · salida v1.3.4 · 1920x1080 transparente */
 :root{--az:#1B2A49;--ro:#C8102E;--am:#F5A623;--gr:#E5E7EB;--bl:#fff;--f:Arial,"Helvetica Neue",sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:1920px;height:1080px;overflow:hidden;background:transparent;font:700 26px var(--f)}
@@ -57,3 +57,5 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:transparent;font
 .chroma .tp{background:#1B2A49}.chroma .tr{transition:none;border-bottom-color:#3b4a68}
 .chroma .tr.dim{opacity:1;color:#9aa3b5}.chroma .tr.dim b{background:#a98235}.chroma .tr.sel{background:#34456c}
 .chroma #cortina{transition:none}
+.chroma .tp{animation:none}   /* el flotado mueve los bordes todo el tiempo y ensucia la llave */
+.corte .a,.corte .on .a,.corte .w,.corte .on .w{transition:none!important}

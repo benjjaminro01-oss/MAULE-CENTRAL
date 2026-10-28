@@ -1,10 +1,11 @@
-/* Maule Central CG · salida v1.3.3 */
+/* Maule Central CG · salida v1.3.4 */
 (function () {
   var $ = function (i) { return document.getElementById(i); };
   var q = location.search, demo = /[?&]demo/.test(q), prev = /[?&]preview/.test(q);
   if (/[?&](demo|mon|preview)/.test(q)) document.documentElement.className = "demo";
   var km = /[?&]chroma(?:=([0-9a-fA-F]{6}))?/.exec(q);   // salida.html?chroma  ·  ?chroma=00B140 (otro verde)
   if (km) { document.documentElement.classList.add("chroma"); document.documentElement.style.setProperty("--key", "#" + (km[1] || "00FF00")); }
+  if (/[?&]corte/.test(q)) document.documentElement.classList.add("corte");   // ?chroma&corte: entran y salen de golpe, sin deslizar
   function P(v) { return (v == null || /^PENDIENTE_/i.test(v)) ? "" : String(v); }   // los pendientes nunca salen al aire
   function fit(el, max) {
     el.style.transform = "none"; var w = el.offsetWidth;
