@@ -1,4 +1,4 @@
-/* Maule Central CG · panel v1.3.0 */
+/* Maule Central CG · panel v1.3.1 */
 (function () {
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
@@ -14,7 +14,7 @@
   };
   var F = {
     p: [["l1", "Nombre", "i"], ["l2", "Cargo", "i"]],
-    z: [["titular", "Titular", "i"], ["tag", "Etiqueta", "i"], ["huincha", "Titulares de la huincha (uno por línea; el que está en el zócalo se omite)", "a"], ["vel", "Velocidad de la huincha (px/s)", "r", 30, 300, 10, 90]],
+    z: [["titular", "Titular", "i"], ["tag", "Etiqueta", "i"], ["apoyo", "Redes sociales (@ del programa)", "i"], ["huincha", "Demás titulares (corren después del principal; uno por línea)", "a"], ["modo", "Animación del titular", "s", [["todos", "Corre titular + demás titulares"], ["solo", "Corre solo el titular"], ["fijo", "Fijo (no corre)"]]], ["vel", "Velocidad del titular (px/s)", "r", 40, 400, 10, 130]],
     c: [], l: [["size", "Tamaño del logo (%)", "r", 20, 120, 5, 70]], t: [["head", "Cabecera", "i"], ["items", "Titulares (uno por línea)", "a"], ["active", "Titular activo (0 = ninguno)", "n"]]
   };
   var N1 = { titular: "FILIT UCM celebra su 20ª edición" }, N2 = { titular: "El auge de los foodtrucks en Talca" };
@@ -132,6 +132,8 @@
         var v = d[f[0]], k = f[0], bad = false;
         if (f[2] === "a") { v = arr(v).join("\n"); bad = /PENDIENTE_/.test(v); pend = pend || bad;
           return '<label>' + f[1] + '<textarea data-k="' + k + '"' + (bad ? ' class="pf"' : "") + ">" + esc(v) + "</textarea></label>"; }
+        if (f[2] === "s") return "<label>" + f[1] + '<select data-k="' + k + '">' + f[3].map(function (o) {
+          return '<option value="' + o[0] + '"' + ((v || f[3][0][0]) === o[0] ? " selected" : "") + ">" + o[1] + "</option>"; }).join("") + "</select></label>";
         if (f[2] === "r") return "<label>" + f[1] + " <output>" + (v || f[6]) + '</output><input type="range" min="' + f[3] + '" max="' + f[4] + '" step="' + f[5] + '" data-k="' + k + '" value="' + (v || f[6]) + '"></label>';
         bad = /^PENDIENTE_/.test(v || ""); pend = pend || bad;
         if (f[2] === "n") return "<label>" + f[1] + '<select data-k="' + k + '">' + [0, 1, 2, 3, 4, 5, 6].map(function (n) {
@@ -191,7 +193,7 @@
     if (document.activeElement) document.activeElement.blur(); render();
   });
   $("#cards").addEventListener("change", function (e) { var k = e.target.dataset.k, g = e.target.closest(".card").dataset.g;
-    if ((k === "size" && g === "logo") || ((k === "active" || k === "vel") && isOn(g))) { Store.set(function (x) { commit(x, g); }); } });
+    if ((k === "size" && g === "logo") || ((k === "active" || k === "vel" || k === "modo") && isOn(g))) { Store.set(function (x) { commit(x, g); }); } });
   $("#steps").addEventListener("click", function (e) { var b = e.target.closest(".st"); if (b) pick(+b.dataset.i); });
   $("#prv").onclick = function () { move(-1); }; $("#nxt").onclick = function () { move(1); };
   $("#tk").onclick = function () { take(step); };

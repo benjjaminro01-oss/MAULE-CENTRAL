@@ -1,4 +1,4 @@
-/* Maule Central CG · salida v1.3.0 · 1920x1080 transparente */
+/* Maule Central CG · salida v1.3.1 · 1920x1080 transparente */
 :root{--az:#1B2A49;--ro:#C8102E;--am:#F5A623;--gr:#E5E7EB;--bl:#fff;--f:Arial,"Helvetica Neue",sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:1920px;height:1080px;overflow:hidden;background:transparent;font:700 26px var(--f)}
@@ -13,15 +13,17 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:transparent;font
 .fit{display:inline-block;white-space:nowrap;transform-origin:left center}
 .mid{transform-origin:center}
 /* ZÓCALO */
-.tit{position:absolute;left:0;top:860px;width:1920px;height:100px;background:var(--bl);color:var(--az);padding-left:120px;display:flex;align-items:center;font-size:54px;text-transform:uppercase}
+.tit{position:absolute;left:0;top:860px;width:1920px;height:100px;background:var(--bl);color:var(--az);display:flex;align-items:center;font-size:54px;text-transform:uppercase}
+.tw{position:absolute;left:120px;top:0;bottom:0;width:1680px;overflow:hidden;display:flex;align-items:center;-webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 40px),transparent)}
+.tit .cr i{width:16px;height:16px;margin:0 56px}
 .acc{position:absolute;left:84px;top:860px;width:12px;height:100px;background:var(--ro)}
 .str{position:absolute;left:0;top:960px;width:1920px;height:60px;background:var(--az)}
 .str>*{position:absolute;top:0;height:60px;display:flex;align-items:center}
 .logo{left:120px;width:380px;background:var(--ro);color:var(--bl);justify-content:center;font-size:30px}
 .tag{left:510px;width:330px;background:var(--am);color:var(--az);justify-content:center;font-size:26px}
-.ap{left:870px;width:730px;overflow:hidden;color:var(--bl);font:400 26px var(--f);-webkit-mask-image:linear-gradient(90deg,transparent,#000 28px,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,transparent,#000 28px,#000 calc(100% - 28px),transparent)}
+.ap{left:870px;width:730px;color:var(--bl);font:400 26px var(--f)}
 .cr{display:flex;width:max-content;white-space:nowrap;animation:crawl var(--t,30s) linear infinite;will-change:transform}
-.cr span{text-transform:uppercase}.cr i{flex:none;width:10px;height:10px;margin:0 30px;background:var(--am)}
+.cr span{text-transform:uppercase}.cr i{flex:none;align-self:center;width:10px;height:10px;margin:0 30px;background:var(--am)}
 @keyframes crawl{to{transform:translateX(var(--w,-500px))}}
 .clk{left:1640px;width:160px;background:var(--gr);color:var(--az);justify-content:center;font-size:32px}
 /* GC PERSONA */

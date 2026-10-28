@@ -1,6 +1,6 @@
-/* Maule Central CG · config v1.3.0 */
+/* Maule Central CG · config v1.3.1 */
 window.CFG = {
-  version: "1.3.0",
+  version: "1.3.1",
   sala: "maule-central",
   /* Pega aquí la URL de tu Realtime Database (es pública, no es una clave). Mientras diga PENDIENTE_ usa modo local. */
   databaseURL: "https://maule-central-default-rtdb.firebaseio.com",
@@ -9,7 +9,7 @@ window.CFG = {
     data: {
       gc_conductor: { l1: "Francisca Azócar", l2: "Conductora" },
       gc_invitado:  { l1: "Carlos Peña", l2: "Analista regional" },
-      zocalo: { titular: "FILIT UCM celebra su 20ª edición", tag: "ÚLTIMAS NOTICIAS", vel: 90, huincha: [
+      zocalo: { titular: "FILIT UCM celebra su 20ª edición", tag: "ÚLTIMAS NOTICIAS", apoyo: "PENDIENTE_REDES_SOCIALES", modo: "todos", vel: 130, huincha: [
         "FILIT UCM celebra su 20ª edición",
         "Posibles efectos del fenómeno de El Niño",
         "Rebaja de hasta 25% en las tarifas del TAG",
