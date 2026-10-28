@@ -1,6 +1,6 @@
-/* Maule Central CG · config v1.2.0 */
+/* Maule Central CG · config v1.2.1 */
 window.CFG = {
-  version: "1.2.0",
+  version: "1.2.1",
   sala: "maule-central",
   /* Pega aquí la URL de tu Realtime Database (es pública, no es una clave). Mientras diga PENDIENTE_ usa modo local. */
   databaseURL: "https://maule-central-default-rtdb.firebaseio.com",
@@ -11,7 +11,7 @@ window.CFG = {
       gc_invitado:  { l1: "Carlos Peña", l2: "Analista regional" },
       zocalo: { titular: "FILIT UCM celebra su 20ª edición", tag: "ÚLTIMAS NOTICIAS", apoyo: "PENDIENTE_TEXTO_APOYO" },
       cortina: { t: 0, dur: 5 },
-      logo: {},
+      logo: { size: 70 },
       _cfg: { excl: 1, btn: [
         { gid: "cortina",      key: "F18", label: "Cortina programa", color: "#C8102E" },
         { gid: "logo",         key: "F22", label: "Logo esquina",   color: "#1B2A49" },

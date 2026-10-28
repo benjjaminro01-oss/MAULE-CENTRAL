@@ -1,4 +1,4 @@
-/* Maule Central CG · panel v1.2.0 */
+/* Maule Central CG · panel v1.2.1 */
 (function () {
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
@@ -10,12 +10,12 @@
     zocalo: { n: "Zócalo titular", slot: "zocalo", f: "z" },
     totem: { n: "Tótem de titulares", slot: "totem", f: "t" },
     cortina: { n: "Cortina del programa", slot: "cortina", f: "c", h: "Video: videos/cortina_programa. Se reproduce una vez y sale sola." },
-    logo: { n: "Logo esquina", slot: "logo", f: "c", h: "Arriba a la derecha. Queda fijo: Limpiar salida y los pasos no lo tocan." }
+    logo: { n: "Logo esquina", slot: "logo", f: "l", h: "Arriba a la derecha. Queda fijo: Limpiar salida y los pasos no lo tocan." }
   };
   var F = {
     p: [["l1", "Nombre", "i"], ["l2", "Cargo", "i"]],
     z: [["titular", "Titular", "i"], ["tag", "Etiqueta", "i"], ["apoyo", "Texto de apoyo", "i"]],
-    c: [], t: [["head", "Cabecera", "i"], ["items", "Titulares (uno por línea)", "a"], ["active", "Titular activo (0 = ninguno)", "n"]]
+    c: [], l: [["size", "Tamaño del logo (%)", "r"]], t: [["head", "Cabecera", "i"], ["items", "Titulares (uno por línea)", "a"], ["active", "Titular activo (0 = ninguno)", "n"]]
   };
   var N1 = { titular: "FILIT UCM celebra su 20ª edición" }, N2 = { titular: "El auge de los foodtrucks en Talca" };
   function p(t) { return { p: t }; }
@@ -106,6 +106,7 @@
         var v = d[f[0]], k = f[0], bad = false;
         if (f[2] === "a") { v = arr(v).join("\n"); bad = /PENDIENTE_/.test(v); pend = pend || bad;
           return '<label>' + f[1] + '<textarea data-k="' + k + '"' + (bad ? ' class="pf"' : "") + ">" + esc(v) + "</textarea></label>"; }
+        if (f[2] === "r") return "<label>" + f[1] + " <output>" + (v || 70) + '</output><input type="range" min="20" max="120" step="5" data-k="' + k + '" value="' + (v || 70) + '"></label>';
         bad = /^PENDIENTE_/.test(v || ""); pend = pend || bad;
         if (f[2] === "n") return "<label>" + f[1] + '<select data-k="' + k + '">' + [0, 1, 2, 3, 4, 5, 6].map(function (n) {
           return '<option value="' + n + '"' + (+v === n ? " selected" : "") + ">" + n + "</option>"; }).join("") + "</select></label>";
@@ -150,7 +151,8 @@
     var c = e.target.closest(".card"), k = e.target.dataset.k; if (!c || !k) return;
     var g = c.dataset.g; draft[g] = draft[g] || clone(st().data[g]);
     draft[g][k] = k === "items" ? e.target.value.split("\n").map(function (x) { return x.trim(); }).filter(Boolean)
-      : k === "active" ? +e.target.value : e.target.value;
+      : (k === "active" || k === "size") ? +e.target.value : e.target.value;
+    if (k === "size") e.target.parentNode.querySelector("output").textContent = e.target.value;
     pv = { on: (function (o) { o[G[g].slot] = g; return o; })({}), ov: {} }; sendPv();
   });
   $("#cards").addEventListener("click", function (e) {
@@ -162,8 +164,8 @@
     if (a === "pv") { pv = { on: (function (o) { o[G[g].slot] = g; return o; })({}), ov: {}, t: Date.now() }; }
     if (document.activeElement) document.activeElement.blur(); render();
   });
-  $("#cards").addEventListener("change", function (e) { if (e.target.dataset.k === "active") { var g = e.target.closest(".card").dataset.g;
-    if (isOn(g)) { Store.set(function (x) { commit(x, g); }); } } });
+  $("#cards").addEventListener("change", function (e) { var k = e.target.dataset.k, g = e.target.closest(".card").dataset.g;
+    if (k === "size" || (k === "active" && isOn(g))) { Store.set(function (x) { commit(x, g); }); } });
   $("#steps").addEventListener("click", function (e) { var b = e.target.closest(".st"); if (b) pick(+b.dataset.i); });
   $("#prv").onclick = function () { move(-1); }; $("#nxt").onclick = function () { move(1); };
   $("#tk").onclick = function () { take(step); };

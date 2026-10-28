@@ -1,4 +1,4 @@
-/* Maule Central CG · salida v1.2.0 */
+/* Maule Central CG · salida v1.2.1 */
 (function () {
   var $ = function (i) { return document.getElementById(i); };
   var q = location.search, demo = /[?&]demo/.test(q), prev = /[?&]preview/.test(q);
@@ -57,6 +57,8 @@
     wasOn = want;
     $("cortina").classList.toggle("on", want && !ended);
     $("logo").classList.toggle("on", !!s.on.logo);
+    var sz = Math.max(20, Math.min(120, +(s.data.logo && s.data.logo.size) || 70));
+    document.querySelector("#logo img").style.width = Math.round(380 * sz / 100) + "px";
   }
   function clock() {
     $("zk").textContent = new Date().toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Santiago" });
