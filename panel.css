@@ -1,0 +1,48 @@
+/* Maule Central CG · panel v1.1.0 */
+:root{--az:#1B2A49;--ro:#C8102E;--am:#F5A623;--gr:#E5E7EB;--bg:#0e1524;--f:Arial,"Helvetica Neue",sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--gr);font:15px var(--f);padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+button,select,input,textarea{font:inherit;color:inherit}
+button{min-height:44px;min-width:44px;padding:0 14px;border:0;border-radius:6px;background:#2a3a5e;font-weight:700;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--am);outline-offset:1px}
+button.go{background:var(--am);color:var(--az)} button.red{background:var(--ro);color:#fff}
+header{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:8px 12px;background:var(--az);position:sticky;top:0;z-index:5}
+header b{margin-right:auto;letter-spacing:.04em}
+nav{display:flex;gap:6px} nav button.act{background:var(--bl,#fff);color:var(--az)}
+#sync{font-size:12px;opacity:.8}
+main{padding:12px;display:grid;gap:12px;grid-template-columns:minmax(260px,340px) 1fr;align-items:start}
+#mon{grid-column:1/-1;display:none;grid-template-columns:1fr 1fr;gap:12px}
+[data-view=visual] #mon{display:grid}
+[data-view=botonera] #esc,[data-view=botonera] #cards{display:none}
+[data-view=botonera] main{grid-template-columns:1fr}
+body:not([data-view=botonera]) #bot{display:none}
+h4{margin:0 0 4px;font-size:12px;letter-spacing:.1em;opacity:.8}
+.mw{position:relative;aspect-ratio:16/9;overflow:hidden;background:#000;border-radius:6px}
+.mw iframe{position:absolute;left:0;top:0;width:1920px;height:1080px;border:0;transform-origin:0 0}
+.tb{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}.tb .go{flex:1}
+#steps{display:grid;gap:4px}
+.ph{margin:8px 0 2px;color:var(--am);font-weight:700}
+.st{display:flex;gap:8px;align-items:center;text-align:left;background:#18233d;font-weight:400;padding:6px 10px}
+.st small{display:block;opacity:.65}.st.cur{outline:2px solid var(--am);background:#24355c}
+.n{flex:none;width:28px;height:28px;border-radius:4px;background:#2a3a5e;display:flex;align-items:center;justify-content:center;font-weight:700}
+#cards{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.card{background:var(--az);border-radius:8px;padding:12px;display:grid;gap:8px;border:2px solid transparent}
+.card.air{border-color:var(--ro)}
+.card h3{margin:0;font-size:16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.bd{background:var(--ro);color:#fff;border-radius:4px;padding:2px 8px;font-size:12px;display:none}.air .bd{display:inline-block}
+.pd{background:var(--am);color:var(--az);border-radius:4px;padding:2px 8px;font-size:12px}
+label{display:grid;gap:3px;font-size:12px;opacity:.95}
+input[type=text],textarea,select{background:#0e1524;border:1px solid #3b4d78;border-radius:5px;padding:8px;min-height:44px;width:100%}
+textarea{min-height:110px}.pf{border-color:var(--am)!important}
+.bt{display:flex;gap:6px;flex-wrap:wrap}.bt button{flex:1 1 42%;padding:0 6px}
+#bot{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.bw{display:grid;gap:6px;background:#18233d;padding:8px;border-radius:8px;align-content:start}
+.bb{min-height:120px;font-size:22px;background:var(--c,#1B2A49);border:3px solid rgba(255,255,255,.25);color:#fff;border-radius:10px}
+.bb.on{background:var(--ro);border-color:#fff}.bb small{display:block;font-size:13px;opacity:.8;margin-top:6px}
+.ed{display:grid;gap:6px;grid-template-columns:1fr 1fr}.ed>*{min-width:0}.ed .w2{grid-column:1/-1}
+.ed input[type=color]{width:100%;height:44px;padding:2px}
+#bar{grid-column:1/-1;display:flex;gap:8px}
+dialog{background:var(--az);color:var(--gr);border:2px solid var(--am);border-radius:10px;max-width:480px}
+dialog::backdrop{background:rgba(0,0,0,.6)}dialog label{margin:10px 0}.mut{opacity:.7;font-size:13px}
+@media(max-width:900px){main{grid-template-columns:1fr}#mon{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}

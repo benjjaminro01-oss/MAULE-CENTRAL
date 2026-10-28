@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Maule Central · Panel</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="stylesheet" href="panel.css?v=1.1.0"></head>
+<body data-view="control">
+<header><b>MAULE CENTRAL · CG</b>
+  <nav id="tabs"><button data-v="control">Control</button><button data-v="visual">Control + Visual</button><button data-v="botonera">Botonera</button><button id="cfgb" aria-label="Configuración">⚙</button></nav>
+  <span id="sync"></span><button id="clr" class="red">LIMPIAR SALIDA</button></header>
+<main>
+  <section id="mon"><div><h4>VISTA PREVIA</h4><div class="mw"><iframe id="pvf" src="salida.html?preview" title="Vista previa"></iframe></div></div>
+  <div><h4>AL AIRE</h4><div class="mw"><iframe id="onf" src="salida.html?mon" title="Al aire"></iframe></div></div></section>
+  <section id="esc"><div class="tb"><button id="prv">◀ Re Pág</button><button id="nxt">Av Pág ▶</button><button id="tk" class="go">TOMAR PASO</button></div><div id="steps"></div></section>
+  <section id="cards"></section>
+  <section id="bot"></section>
+</main>
+<dialog id="dlg"><h3>Configuración</h3>
+  <label>Dispositivo <select id="dev"><option value="auto">Automático</option><option value="btn">Solo botonera</option><option value="full">Panel completo</option></select></label>
+  <label><input type="checkbox" id="excl"> GC de persona y zócalo se excluyen (mostrar uno oculta el otro)</label>
+  <p id="info"></p><p class="mut">Transiciones, videos, gráficas nuevas y copia de seguridad llegan en la próxima fase.</p>
+  <button id="dok" class="go">Cerrar</button></dialog>
+<script src="config.js?v=1.1.0"></script><script src="core.js?v=1.1.0"></script><script src="panel.js?v=1.1.0"></script>
+</body></html>

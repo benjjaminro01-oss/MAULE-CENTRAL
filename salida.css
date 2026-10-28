@@ -1,0 +1,40 @@
+/* Maule Central CG · salida v1.1.0 · 1920x1080 transparente */
+:root{--az:#1B2A49;--ro:#C8102E;--am:#F5A623;--gr:#E5E7EB;--bl:#fff;--f:Arial,"Helvetica Neue",sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:transparent;font:700 26px var(--f)}
+.demo body{background:#566680 repeating-conic-gradient(#4d5b73 0 25%,#566680 0 50%) 0 0/40px 40px}
+.g{position:absolute;inset:0;pointer-events:none}
+.a{position:absolute;opacity:0;transition:transform .45s cubic-bezier(.65,0,.8,.4) var(--o,0s),opacity .3s var(--o,0s)}
+.on .a{opacity:1;transform:none!important;transition:transform .6s cubic-bezier(.2,.9,.25,1) var(--d,0s),opacity .3s var(--d,0s)}
+.up{inset:0;transform:translateY(170px)}
+.rt{transform:translateX(620px)}
+.w{opacity:1;clip-path:inset(-30px 101% -30px 0);transition:clip-path .4s ease-in var(--o,0s)}
+.on .w{clip-path:inset(-30px -60px -30px 0);transition:clip-path .6s cubic-bezier(.2,.9,.25,1) var(--d,0s)}
+.fit{display:inline-block;white-space:nowrap;transform-origin:left center}
+.mid{transform-origin:center}
+/* ZÓCALO */
+.tit{position:absolute;left:0;top:860px;width:1920px;height:100px;background:var(--bl);color:var(--az);padding-left:120px;display:flex;align-items:center;font-size:54px;text-transform:uppercase}
+.acc{position:absolute;left:84px;top:860px;width:12px;height:100px;background:var(--ro)}
+.str{position:absolute;left:0;top:960px;width:1920px;height:60px;background:var(--az)}
+.str>*{position:absolute;top:0;height:60px;display:flex;align-items:center}
+.logo{left:120px;width:380px;background:var(--ro);color:var(--bl);justify-content:center;font-size:30px}
+.tag{left:510px;width:330px;background:var(--am);color:var(--az);justify-content:center;font-size:26px}
+.ap{left:870px;width:730px;color:var(--bl);font:400 26px var(--f)}
+.clk{left:1640px;width:160px;background:var(--gr);color:var(--az);justify-content:center;font-size:32px}
+/* GC PERSONA */
+.gacc{left:96px;top:840px;width:12px;height:140px;background:var(--ro)}
+.gtab{left:108px;top:808px;height:32px;padding:0 22px;background:var(--ro);color:var(--bl);font-size:17px;letter-spacing:.12em;display:flex;align-items:center}
+.gn{left:108px;top:840px;height:80px;padding:0 44px 0 28px;background:var(--bl);color:var(--az);font-size:54px;display:flex;align-items:center;text-transform:uppercase;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.gc2{left:108px;top:920px;height:60px;padding:0 30px 0 26px;background:var(--az);color:var(--gr);font:400 28px var(--f);display:flex;align-items:center}
+/* TÓTEM */
+.tp{left:1340px;top:250px;width:520px;background:rgba(27,42,73,.92);box-shadow:0 6px 28px rgba(0,0,0,.5);animation:fl 5s ease-in-out infinite}
+@keyframes fl{50%{translate:0 6px}}
+.th{height:56px;background:var(--ro);color:var(--bl);padding-left:24px;display:flex;align-items:center;font-size:26px;border-bottom:4px solid var(--am);height:60px}
+.tr{position:relative;height:88px;display:flex;align-items:center;gap:14px;padding:0 20px 0 22px;color:var(--bl);font-size:26px;line-height:1.1;text-transform:uppercase;border-bottom:2px solid rgba(229,231,235,.22);transition:opacity .3s,background .3s}
+.tr:last-child{border-bottom:0}
+.tr b{flex:none;width:36px;height:36px;background:var(--am);color:var(--az);font-size:22px;display:flex;align-items:center;justify-content:center}
+.tr span{display:block;overflow:hidden;max-height:70px;flex:1}
+.tr.dim{opacity:.55}
+.tr.sel{background:rgba(255,255,255,.14)}
+.tr.sel::before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--am)}
+@media (prefers-reduced-motion:reduce){.tp{animation:none}}
