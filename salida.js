@@ -1,15 +1,19 @@
-/* Maule Central CG · salida v1.3.1 */
+/* Maule Central CG · salida v1.3.3 */
 (function () {
   var $ = function (i) { return document.getElementById(i); };
   var q = location.search, demo = /[?&]demo/.test(q), prev = /[?&]preview/.test(q);
   if (/[?&](demo|mon|preview)/.test(q)) document.documentElement.className = "demo";
+  var km = /[?&]chroma(?:=([0-9a-fA-F]{6}))?/.exec(q);   // salida.html?chroma  ·  ?chroma=00B140 (otro verde)
+  if (km) { document.documentElement.classList.add("chroma"); document.documentElement.style.setProperty("--key", "#" + (km[1] || "00FF00")); }
   function P(v) { return (v == null || /^PENDIENTE_/i.test(v)) ? "" : String(v); }   // los pendientes nunca salen al aire
   function fit(el, max) {
     el.style.transform = "none"; var w = el.offsetWidth;
     if (w > max) el.style.transform = "scale(" + (max / w) + ")";
   }
-  var shown = { gc: null }, tmr;
+  var shown = { gc: null }, tmr, zsig = "", tsig = "";
+  var gsig = "";
   function setGC(id, d) {
+    var sg = id + JSON.stringify(d); if (sg === gsig) return; gsig = sg;
     $("gn").firstChild.textContent = P(d.l1); $("gc2s").textContent = P(d.l2);
     $("gc2").style.display = P(d.l2) ? "flex" : "none";
     fit($("gn").firstChild, 1500); fit($("gc2s"), 900);
@@ -28,9 +32,10 @@
     } else if (g) setGC(g, s.data[g]);
     // Zócalo
     var z = s.data.zocalo;
-    $("zg").textContent = P(z.tag); $("za").textContent = P(z.apoyo);
-    $("tagb").style.visibility = P(z.tag) ? "visible" : "hidden";
-    fit($("za"), 730); fit($("zg"), 290); crawl(z);
+    var zs = P(z.tag) + "|" + P(z.apoyo);
+    if (zs !== zsig) { zsig = zs; $("zg").textContent = P(z.tag); $("za").textContent = P(z.apoyo);
+      $("tagb").style.visibility = P(z.tag) ? "visible" : "hidden"; fit($("za"), 730); fit($("zg"), 290); }
+    crawl(z);
     $("zocalo").classList.toggle("on", !!s.on.zocalo);
     // Tótem
     var t = s.data.totem, items = (t.items || []).map(P).filter(Boolean), h = "";
@@ -39,8 +44,9 @@
     items.forEach(function (x, i) {
       h += '<div class="tr' + (a && a === i + 1 ? " sel" : a ? " dim" : "") + '"><b>' + (i + 1) + "</b><span></span></div>";
     });
-    $("tl").innerHTML = h;
-    [].forEach.call($("tl").querySelectorAll("span"), function (sp, i) { sp.textContent = items[i]; });
+    var ts = h + "|" + items.join("¦");
+    if (ts !== tsig) { tsig = ts; $("tl").innerHTML = h;
+      [].forEach.call($("tl").querySelectorAll("span"), function (sp, i) { sp.textContent = items[i]; }); }
     $("totem").classList.toggle("on", !!s.on.totem);
   }
   // Cortina: se reproduce una vez cada vez que cambia su marca de tiempo
@@ -49,7 +55,7 @@
   function cortina(s) {
     var c = s.data.cortina, base = c.src || "videos/cortina_programa";
     if (cv.dataset.s !== base) { cv.dataset.s = base;
-      cv.innerHTML = '<source src="' + base + '.webm" type="video/webm"><source src="' + base + '.mp4" type="video/mp4">'; cv.load(); }
+      cv.innerHTML = '<source src="' + base + '.mp4" type="video/mp4"><source src="' + base + '.webm" type="video/webm">'; cv.load(); }
     var want = !!s.on.cortina;
     if (lastT === undefined) lastT = c.t;                 // al cargar la página no se repite una cortina vieja
     else if (want && c.t !== lastT) { lastT = c.t; ended = false; cv.currentTime = 0; var pr = cv.play(); if (pr && pr.catch) pr.catch(function () {}); }
@@ -86,4 +92,6 @@
   clock(); setInterval(clock, 5000);
   if (prev) window.addEventListener("message", function (e) { if (e.data && e.data.on) render(e.data); });
   else Store.onChange(render);
+  if (/[?&]info/.test(q)) { var vi = document.createElement("div"); vi.textContent = "Salida v" + CFG.version;
+    vi.style.cssText = "position:absolute;left:12px;top:8px;padding:4px 10px;background:#000;color:#0f0;font:700 22px Arial;z-index:99"; document.body.appendChild(vi); }
 })();

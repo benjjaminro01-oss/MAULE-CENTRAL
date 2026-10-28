@@ -1,4 +1,4 @@
-/* Maule Central CG · salida v1.3.1 · 1920x1080 transparente */
+/* Maule Central CG · salida v1.3.3 · 1920x1080 transparente */
 :root{--az:#1B2A49;--ro:#C8102E;--am:#F5A623;--gr:#E5E7EB;--bl:#fff;--f:Arial,"Helvetica Neue",sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:1920px;height:1080px;overflow:hidden;background:transparent;font:700 26px var(--f)}
@@ -47,3 +47,13 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:transparent;font
 .lg{right:60px;top:24px;width:380px;height:auto;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45))}
 #cortina{z-index:9;opacity:0;transition:opacity .15s}#cortina.on{opacity:1}
 #cv{display:block;width:1920px;height:1080px;object-fit:fill}
+/* MODO CHROMA (?chroma): fondo verde y bordes duros, sin semitransparencias que ensucien la llave del ATEM */
+.chroma body{background:var(--key,#00FF00)!important}
+.chroma .a{transition:transform .45s cubic-bezier(.65,0,.8,.4) var(--o,0s),opacity 0s linear calc(var(--o,0s) + .5s)}
+.chroma .on .a{transition:transform .6s cubic-bezier(.2,.9,.25,1) var(--d,0s),opacity 0s linear 0s}
+.chroma .up{transform:translateY(260px)}
+.chroma .gn,.chroma .tp{box-shadow:none}.chroma .lg{filter:none}
+.chroma .tw{-webkit-mask-image:none;mask-image:none}
+.chroma .tp{background:#1B2A49}.chroma .tr{transition:none;border-bottom-color:#3b4a68}
+.chroma .tr.dim{opacity:1;color:#9aa3b5}.chroma .tr.dim b{background:#a98235}.chroma .tr.sel{background:#34456c}
+.chroma #cortina{transition:none}

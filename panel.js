@@ -1,4 +1,4 @@
-/* Maule Central CG · panel v1.3.1 */
+/* Maule Central CG · panel v1.3.3 */
 (function () {
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
@@ -95,7 +95,7 @@
     var v = view(); document.body.dataset.view = v;
     $("#tabs").style.display = dev() === "btn" ? "none" : "flex";
     $$("#tabs [data-v]").forEach(function (b) { b.classList.toggle("act", b.dataset.v === v); });
-    $("#sync").textContent = Store.mode === "firebase" ? "● sincronizado (Firebase)" : "● modo local";
+    $("#sync").textContent = Store.mode === "firebase" ? "● sincronizado (Firebase)" : "● modo local"; $("#sync").textContent += " · v" + CFG.version;
   }
   function scale() { $$(".mw").forEach(function (w) { w.firstElementChild.style.transform = "scale(" + (w.clientWidth / 1920) + ")"; }); }
   function pvState() {
