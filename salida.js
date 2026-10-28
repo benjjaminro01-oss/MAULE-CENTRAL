@@ -1,4 +1,4 @@
-/* Maule Central CG · salida v1.3.6 */
+/* Maule Central CG · salida v1.3.7 */
 (function () {
   var $ = function (i) { return document.getElementById(i); };
   var q = location.search, demo = /[?&]demo/.test(q), prev = /[?&]preview/.test(q);
@@ -67,13 +67,15 @@
     var sz = Math.max(20, Math.min(120, +(s.data.logo && s.data.logo.size) || 70));
     var li = document.querySelector("#logo img"), lw = Math.round(380 * sz / 100);
     li.style.width = lw + "px";
-    if (km) {   // modo chroma: logo con borde duro, generado al tamaño exacto (sin escalar ni semitransparencias)
+    if (km && !lfail) {   // modo chroma: logo con borde duro, generado al tamaño exacto (sin escalar ni semitransparencias)
       sz = Math.max(20, Math.min(120, Math.round(sz / 5) * 5)); lw = Math.round(380 * sz / 100); li.style.width = lw + "px";
-      var ls = "logos/logo_" + lw + ".png?v=1.3.6"; if (li.getAttribute("src") !== ls) li.setAttribute("src", ls);
+      var ls = "logos/logo_" + lw + ".png?v=1.3.7"; if (li.getAttribute("src") !== ls) {
+        li.onerror = function () { lfail = true; li.onerror = null; li.setAttribute("src", "logo.png?v=1.3.7"); };   // si falta la carpeta logos, usa logo.png
+        li.setAttribute("src", ls); }
     }
   }
   // Huincha: los demás titulares corren de derecha a izquierda en bucle continuo
-  var csig = "";
+  var csig = "", lfail = false;
   function esc(x) { return String(x).replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }); }
   function crawl(z) {
     var box = $("zt"), tt = P(z.titular), raw = z.huincha || [], modo = z.modo || "todos";

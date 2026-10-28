@@ -1,4 +1,4 @@
-/* Maule Central CG · panel v1.3.6 */
+/* Maule Central CG · panel v1.3.7 */
 (function () {
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };

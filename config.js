@@ -1,6 +1,6 @@
-/* Maule Central CG · config v1.3.6 */
+/* Maule Central CG · config v1.3.7 */
 window.CFG = {
-  version: "1.3.6",
+  version: "1.3.7",
   sala: "maule-central",
   /* Pega aquí la URL de tu Realtime Database (es pública, no es una clave). Mientras diga PENDIENTE_ usa modo local. */
   databaseURL: "https://maule-central-default-rtdb.firebaseio.com",
