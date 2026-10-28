@@ -1,4 +1,4 @@
-/* Maule Central CG · core v1.3.4 · estado compartido (local o Firebase) */
+/* Maule Central CG · core v1.3.6 · estado compartido (local o Firebase) */
 (function () {
   var C = window.CFG, K = "mc_state_" + C.sala, subs = [], st = null;
   var fb = C.databaseURL && !/^PENDIENTE_/.test(C.databaseURL);

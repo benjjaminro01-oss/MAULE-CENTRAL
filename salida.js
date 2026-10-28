@@ -1,4 +1,4 @@
-/* Maule Central CG · salida v1.3.4 */
+/* Maule Central CG · salida v1.3.6 */
 (function () {
   var $ = function (i) { return document.getElementById(i); };
   var q = location.search, demo = /[?&]demo/.test(q), prev = /[?&]preview/.test(q);
@@ -65,7 +65,12 @@
     $("cortina").classList.toggle("on", want && !ended);
     $("logo").classList.toggle("on", !!s.on.logo);
     var sz = Math.max(20, Math.min(120, +(s.data.logo && s.data.logo.size) || 70));
-    document.querySelector("#logo img").style.width = Math.round(380 * sz / 100) + "px";
+    var li = document.querySelector("#logo img"), lw = Math.round(380 * sz / 100);
+    li.style.width = lw + "px";
+    if (km) {   // modo chroma: logo con borde duro, generado al tamaño exacto (sin escalar ni semitransparencias)
+      sz = Math.max(20, Math.min(120, Math.round(sz / 5) * 5)); lw = Math.round(380 * sz / 100); li.style.width = lw + "px";
+      var ls = "logos/logo_" + lw + ".png?v=1.3.6"; if (li.getAttribute("src") !== ls) li.setAttribute("src", ls);
+    }
   }
   // Huincha: los demás titulares corren de derecha a izquierda en bucle continuo
   var csig = "";
@@ -93,6 +98,11 @@
   clock(); setInterval(clock, 5000);
   if (prev) window.addEventListener("message", function (e) { if (e.data && e.data.on) render(e.data); });
   else Store.onChange(render);
+  if (/[?&]fps/.test(q)) {   // salida.html?chroma&fps: muestra los cuadros por segundo que OBS realmente dibuja
+    var fd = document.createElement("div"), fn = 0, ft = performance.now();
+    fd.style.cssText = "position:absolute;left:12px;top:48px;padding:4px 10px;background:#000;color:#ff0;font:700 28px Arial;z-index:99"; document.body.appendChild(fd);
+    (function tick(now) { fn++; if (now - ft >= 1000) { fd.textContent = "FPS: " + Math.round(fn * 1000 / (now - ft)); fn = 0; ft = now; } requestAnimationFrame(tick); })(performance.now());
+  }
   if (/[?&]info/.test(q)) { var vi = document.createElement("div"); vi.textContent = "Salida v" + CFG.version;
     vi.style.cssText = "position:absolute;left:12px;top:8px;padding:4px 10px;background:#000;color:#0f0;font:700 22px Arial;z-index:99"; document.body.appendChild(vi); }
 })();
