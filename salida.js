@@ -1,4 +1,4 @@
-/* Maule Central CG · salida v1.2.1 */
+/* Maule Central CG · salida v1.3.0 */
 (function () {
   var $ = function (i) { return document.getElementById(i); };
   var q = location.search, demo = /[?&]demo/.test(q), prev = /[?&]preview/.test(q);
@@ -28,9 +28,9 @@
     } else if (g) setGC(g, s.data[g]);
     // Zócalo
     var z = s.data.zocalo;
-    $("zt").textContent = P(z.titular); $("zg").textContent = P(z.tag); $("za").textContent = P(z.apoyo);
+    $("zt").textContent = P(z.titular); $("zg").textContent = P(z.tag); 
     $("tagb").style.visibility = P(z.tag) ? "visible" : "hidden";
-    fit($("zt"), 1680); fit($("za"), 730); fit($("zg"), 290);
+    fit($("zt"), 1680); crawl(z); fit($("zg"), 290);
     $("zocalo").classList.toggle("on", !!s.on.zocalo);
     // Tótem
     var t = s.data.totem, items = (t.items || []).map(P).filter(Boolean), h = "";
@@ -59,6 +59,22 @@
     $("logo").classList.toggle("on", !!s.on.logo);
     var sz = Math.max(20, Math.min(120, +(s.data.logo && s.data.logo.size) || 70));
     document.querySelector("#logo img").style.width = Math.round(380 * sz / 100) + "px";
+  }
+  // Huincha: los demás titulares corren de derecha a izquierda en bucle continuo
+  var csig = "";
+  function esc(x) { return String(x).replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }); }
+  function crawl(z) {
+    var cur = P(z.titular).toLowerCase(), box = $("za"), raw = z.huincha || [];
+    var L = (Array.isArray(raw) ? raw : Object.values(raw)).map(P).filter(function (x) { return x && x.toLowerCase() !== cur; });
+    var vel = Math.max(30, Math.min(300, +z.vel || 90)), sg = L.join("|") + "#" + vel;
+    if (sg === csig) return; csig = sg;
+    if (!L.length) { box.innerHTML = ""; return; }
+    var unit = L.map(function (x) { return "<span>" + esc(x) + "</span><i></i>"; }).join("");
+    box.style.animation = "none"; box.innerHTML = unit;
+    var w = box.offsetWidth || 1, n = Math.max(1, Math.ceil(730 / w)), grp = "";
+    for (var i = 0; i < n; i++) grp += unit;
+    box.innerHTML = grp + grp; var gw = w * n;
+    box.style.setProperty("--w", -gw + "px"); box.style.setProperty("--t", (gw / vel) + "s"); box.style.animation = "";
   }
   function clock() {
     $("zk").textContent = new Date().toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Santiago" });

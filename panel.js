@@ -1,4 +1,4 @@
-/* Maule Central CG · panel v1.2.1 */
+/* Maule Central CG · panel v1.3.0 */
 (function () {
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
@@ -14,21 +14,40 @@
   };
   var F = {
     p: [["l1", "Nombre", "i"], ["l2", "Cargo", "i"]],
-    z: [["titular", "Titular", "i"], ["tag", "Etiqueta", "i"], ["apoyo", "Texto de apoyo", "i"]],
-    c: [], l: [["size", "Tamaño del logo (%)", "r"]], t: [["head", "Cabecera", "i"], ["items", "Titulares (uno por línea)", "a"], ["active", "Titular activo (0 = ninguno)", "n"]]
+    z: [["titular", "Titular", "i"], ["tag", "Etiqueta", "i"], ["huincha", "Titulares de la huincha (uno por línea; el que está en el zócalo se omite)", "a"], ["vel", "Velocidad de la huincha (px/s)", "r", 30, 300, 10, 90]],
+    c: [], l: [["size", "Tamaño del logo (%)", "r", 20, 120, 5, 70]], t: [["head", "Cabecera", "i"], ["items", "Titulares (uno por línea)", "a"], ["active", "Titular activo (0 = ninguno)", "n"]]
   };
   var N1 = { titular: "FILIT UCM celebra su 20ª edición" }, N2 = { titular: "El auge de los foodtrucks en Talca" };
   function p(t) { return { p: t }; }
-  function s(n, t, d, g) { return { n: n, t: t, d: d, g: g || [] }; }
-  var S = [p("Parte 1"), s(1, "Cortina de inicio", "7 s", [["cortina"]]), s(2, "Bienvenida en cámara", "20 s", [["gc_conductor"]]),
-    s(3, "Titulares", "20 s", [["totem"]]), s(4, "Presentación nota 1 · FILIT", "10 s", [["zocalo", N1]]),
-    s(5, "Cortina", "7 s", [["cortina"]]), s(6, "Video nota informativa 1", "2:15"), s(7, "Cortina", "7 s", [["cortina"]]),
-    s(8, "Comentarios sobre nota", "2 min", [["zocalo", N1]]), s(9, "Cortina", "7 s", [["cortina"]]), s(10, "Comerciales", "3 min"),
-    p("Parte 2"), s(11, "Cortina", "7 s", [["cortina"]]), s(12, "Presentación invitado", "25 s", [["gc_invitado"]]),
-    s(13, "Conversación en estudio", "10 min"), s(14, "Presentación nota 2 · Foodtrucks", "10 s", [["zocalo", N2]]),
-    s(15, "Cortina", "7 s", [["cortina"]]), s(16, "Video nota informativa 2", "2:15"), s(17, "Cortina", "7 s", [["cortina"]]),
-    s(18, "Comentarios sobre nota", "2 min"), s(19, "Cortina", "7 s", [["cortina"]]),
-    s(20, "Cierre y despedida", "1:30", [["gc_invitado"], ["totem"]]), s(21, "Cortina final", "7 s", [["cortina"]])];
+  function s(n, t, d, g, x) { x = x || {}; x.n = n; x.t = t; x.d = d; x.g = g || []; return x; }
+  var CO = { so: "Cortina musical (1) institucional «Maule Central»", im: "VTR intro del programa. Gráfica del noticiero", gu: "—" };
+  function C(n, r, tt) { return s(n, tt || "Cortina", "7 s", [["cortina"]], { r: r || "VTR cortina y Música 1", so: CO.so, im: CO.im, gu: CO.gu }); }
+  function T(n, t, ti) { return s(n, t, "", [["zocalo", { titular: ti }]], { sub: 1 }); }
+  var S = [p("Parte 1"),
+    C(1, "VTR cortina y Música 1 comienza", "Cortina de inicio"),
+    s(2, "Bienvenida en cámara", "20 s", [["gc_conductor"]], { r: "PG estudio · comienza Música 2", so: "Cortina Música (2) · micrófono conductor ON", im: "PG en estudio, conductor al centro. GC con nombre y cargo", gu: "«Muy buenas tardes a toda la Región. Bienvenidos a una nueva edición de Maule Central…»" }),
+    s(3, "Titulares", "20 s", [["totem"]], { r: "DÚPLEX · Música 2", so: "Cortina Música (2) · micrófono conductor", im: "DÚPLEX: conductor a la izquierda, recuadro a la derecha. GC titulares y VTR imágenes de apoyo (pendiente)", gu: "«Para empezar la FILIT celebra su vigésima edición…»" }),
+    s(4, "Presentación nota 1 · FILIT", "10 s", [["zocalo", N1]], { r: "GC · audio nota · Música 2", so: "Audio nota informativa · micrófono conductor", im: "Conductor de frente. GC «FILIT UCM celebra su 20ª edición»", gu: "«Comenzamos con una de las más importantes tradiciones de la ciudad de Talca…»" }),
+    C(5), s(6, "Video nota informativa 1", "2:15", [], { r: "VTR 1 · audio nota", im: "VTR nº 1 (archivo de video pendiente)" }),
+    C(7, "VTR cortina y Música 1 comienza"),
+    s(8, "Comentarios sobre nota", "2 min", [["zocalo", N1]], { r: "PM conductor · Música 1", so: "Cortina de retorno Música (2) · micrófono conductor e invitado", im: "PG estudio, conductor en el set. GC «FILIT UCM celebra su 20ª edición»", gu: "«Sin duda, la lectura nos abre las puertas a nuevas historias… Hacemos ahora una breve pausa comercial.»" }),
+    C(9), s(10, "Comerciales", "3 min", [], { r: "Tanda de VTR de marcas", so: "Cortina Música (1) · audio comerciales", im: "Tanda VTR (marcas pendientes)" }),
+    p("Parte 2"),
+    C(11, "VTR cortina y Música 1 comienza"),
+    s(12, "Presentación invitado", "25 s", [["gc_invitado"]], { r: "GC nombre invitado · Música 2", so: "Cortina de retorno (1)", im: "PG estudio, conductor junto al invitado. PM ambos. GC nombre del invitado, Analista Regional", gu: "«Ya estamos de regreso. Como les prometimos, hoy nos acompaña nuestro analista regional…»" }),
+    s(13, "Conversación en estudio", "10 min", [], { r: "DÚPLEX · Música 2", so: "Música de fondo (2) · micrófono conductor e invitado", im: "DÚPLEX. PM conductor e invitado", gu: "Tres temas: El Niño, rebaja del TAG y BTS en el Estadio Nacional" }),
+    T("13.1", "Tema 1 · El Niño", "Posibles efectos del fenómeno de El Niño"),
+    T("13.2", "Tema 2 · Rebaja del TAG", "Rebaja de hasta 25% en las tarifas del TAG"),
+    T("13.3", "Tema 3 · BTS", "BTS llega al Estadio Nacional"),
+    s(14, "Presentación nota 2 · Foodtrucks", "10 s", [["zocalo", N2]], { r: "GC · audio nota", so: "Audio nota informativa", im: "PM conductor. GC de la nota", gu: "«Y dejando de lado estos temas, ahora nos trasladamos hasta las calles de Talca…»" }),
+    C(15), s(16, "Video nota informativa 2", "2:15", [], { r: "VTR 2 · audio nota", im: "VTR nº 2 (archivo de video pendiente)" }),
+    C(17), s(18, "Comentarios sobre nota", "2 min", [], { r: "Música 1", so: "Música de fondo (2) · micrófono conductor e invitado", im: "PG estudio, conductor junto al invitado. PM a cada uno", gu: "«Sin duda, los foodtrucks son una alternativa interesante para comer y emprender.»" }),
+    C(19), s(20, "Cierre y despedida", "1:30", [["gc_invitado"], ["totem"]], { r: "GC · Música 1", so: "Cortina Música fondo (1) · micrófono conductor e invitado", im: "PG estudio con el invitado. PM a cada uno. GC nombre del invitado; resumen de titulares", gu: "«Y bueno, así vamos llegando al final de nuestra edición de hoy…»" }),
+    C(21, "VTR cortina y Música 1", "Cortina final")];
+  function sec(d) { var m; if ((m = /^(\d+):(\d+)$/.exec(d))) return m[1] * 60 + +m[2]; if ((m = /(\d+) min/.exec(d))) return m[1] * 60; if ((m = /(\d+) s/.exec(d))) return +m[1]; return 0; }
+  function fmt(n) { return Math.floor(n / 60) + ":" + ("0" + (n % 60)).slice(-2); }
+  (function () { var acc = 0, hd = null; S.forEach(function (x) {
+    if (x.p) { hd = x; hd.tot = 0; } else if (!x.sub) { var q = sec(x.d); acc += q; x.a = acc; hd.tot += q; } }); S.total = acc; })();
   var draft = {}, step = -1, cap = -1, edit = false, pv = { on: {}, ov: {} };
   var st = function () { return Store.get(); };
   var cfg = function () { return st().data._cfg; };
@@ -92,12 +111,19 @@
   function cur(gid) { return draft[gid] || st().data[gid]; }
 
   function renderSteps() {
-    $("#steps").innerHTML = S.map(function (d, i) {
-      if (d.p) return '<div class="ph">' + d.p + "</div>";
+    var cur = S[step], det = "";
+    if (cur && !cur.p) {
+      var gs = cur.g.map(function (g) { return G[g[0]].n; }).join(" + ") || "sin gráficas";
+      det = '<div class="det"><div><b>' + esc(cur.n + " · " + cur.t) + "</b> · " + (cur.d || "") + "</div>" +
+        [["Gráficas", gs], ["Recursos", cur.r], ["Sonido", cur.so], ["Imagen", cur.im], ["Guion", cur.gu]].filter(function (r) { return r[1]; })
+        .map(function (r) { return "<div><b>" + r[0] + ":</b> " + esc(r[1]) + "</div>"; }).join("") + "</div>";
+    }
+    $("#steps").innerHTML = det + S.map(function (d, i) {
+      if (d.p) return '<div class="ph">' + d.p + " · " + fmt(d.tot) + "</div>";
       var gs = d.g.map(function (g) { return G[g[0]].n; }).join(" + ");
-      return '<button class="st' + (i === step ? " cur" : "") + '" data-i="' + i + '"><span class="n">' + d.n + "</span><span>" + esc(d.t) +
-        "<small>" + d.d + (gs ? " · " + esc(gs) : "") + "</small></span></button>";
-    }).join("");
+      return '<button class="st' + (d.sub ? " sub" : "") + (i === step ? " cur" : "") + '" data-i="' + i + '"><span class="n">' + d.n + "</span><span>" + esc(d.t) +
+        "<small>" + (d.d || "") + (d.a ? " · acum. " + fmt(d.a) : "") + (gs ? " · " + esc(gs) : "") + "</small></span></button>";
+    }).join("") + '<div class="ph">Total ' + fmt(S.total) + " de 26:00 máx.</div>";
   }
   function renderCards() {
     $("#cards").innerHTML = Object.keys(G).map(function (gid) {
@@ -106,7 +132,7 @@
         var v = d[f[0]], k = f[0], bad = false;
         if (f[2] === "a") { v = arr(v).join("\n"); bad = /PENDIENTE_/.test(v); pend = pend || bad;
           return '<label>' + f[1] + '<textarea data-k="' + k + '"' + (bad ? ' class="pf"' : "") + ">" + esc(v) + "</textarea></label>"; }
-        if (f[2] === "r") return "<label>" + f[1] + " <output>" + (v || 70) + '</output><input type="range" min="20" max="120" step="5" data-k="' + k + '" value="' + (v || 70) + '"></label>';
+        if (f[2] === "r") return "<label>" + f[1] + " <output>" + (v || f[6]) + '</output><input type="range" min="' + f[3] + '" max="' + f[4] + '" step="' + f[5] + '" data-k="' + k + '" value="' + (v || f[6]) + '"></label>';
         bad = /^PENDIENTE_/.test(v || ""); pend = pend || bad;
         if (f[2] === "n") return "<label>" + f[1] + '<select data-k="' + k + '">' + [0, 1, 2, 3, 4, 5, 6].map(function (n) {
           return '<option value="' + n + '"' + (+v === n ? " selected" : "") + ">" + n + "</option>"; }).join("") + "</select></label>";
@@ -150,9 +176,9 @@
   $("#cards").addEventListener("input", function (e) {
     var c = e.target.closest(".card"), k = e.target.dataset.k; if (!c || !k) return;
     var g = c.dataset.g; draft[g] = draft[g] || clone(st().data[g]);
-    draft[g][k] = k === "items" ? e.target.value.split("\n").map(function (x) { return x.trim(); }).filter(Boolean)
-      : (k === "active" || k === "size") ? +e.target.value : e.target.value;
-    if (k === "size") e.target.parentNode.querySelector("output").textContent = e.target.value;
+    draft[g][k] = (k === "items" || k === "huincha") ? e.target.value.split("\n").map(function (x) { return x.trim(); }).filter(Boolean)
+      : (k === "active" || k === "size" || k === "vel") ? +e.target.value : e.target.value;
+    if (k === "size" || k === "vel") e.target.parentNode.querySelector("output").textContent = e.target.value;
     pv = { on: (function (o) { o[G[g].slot] = g; return o; })({}), ov: {} }; sendPv();
   });
   $("#cards").addEventListener("click", function (e) {
@@ -165,7 +191,7 @@
     if (document.activeElement) document.activeElement.blur(); render();
   });
   $("#cards").addEventListener("change", function (e) { var k = e.target.dataset.k, g = e.target.closest(".card").dataset.g;
-    if (k === "size" || (k === "active" && isOn(g))) { Store.set(function (x) { commit(x, g); }); } });
+    if ((k === "size" && g === "logo") || ((k === "active" || k === "vel") && isOn(g))) { Store.set(function (x) { commit(x, g); }); } });
   $("#steps").addEventListener("click", function (e) { var b = e.target.closest(".st"); if (b) pick(+b.dataset.i); });
   $("#prv").onclick = function () { move(-1); }; $("#nxt").onclick = function () { move(1); };
   $("#tk").onclick = function () { take(step); };
