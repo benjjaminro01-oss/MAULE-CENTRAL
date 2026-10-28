@@ -1,4 +1,4 @@
-/* Maule Central CG · panel v1.1.0 */
+/* Maule Central CG · panel v1.2.0 */
 (function () {
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
@@ -8,51 +8,61 @@
     gc_conductor: { n: "GC Conductora", slot: "gc", f: "p" },
     gc_invitado: { n: "GC Invitado", slot: "gc", f: "p" },
     zocalo: { n: "Zócalo titular", slot: "zocalo", f: "z" },
-    totem: { n: "Tótem de titulares", slot: "totem", f: "t" }
+    totem: { n: "Tótem de titulares", slot: "totem", f: "t" },
+    cortina: { n: "Cortina del programa", slot: "cortina", f: "c", h: "Video: videos/cortina_programa. Se reproduce una vez y sale sola." },
+    logo: { n: "Logo esquina", slot: "logo", f: "c", h: "Arriba a la derecha. Queda fijo: Limpiar salida y los pasos no lo tocan." }
   };
   var F = {
     p: [["l1", "Nombre", "i"], ["l2", "Cargo", "i"]],
     z: [["titular", "Titular", "i"], ["tag", "Etiqueta", "i"], ["apoyo", "Texto de apoyo", "i"]],
-    t: [["head", "Cabecera", "i"], ["items", "Titulares (uno por línea)", "a"], ["active", "Titular activo (0 = ninguno)", "n"]]
+    c: [], t: [["head", "Cabecera", "i"], ["items", "Titulares (uno por línea)", "a"], ["active", "Titular activo (0 = ninguno)", "n"]]
   };
   var N1 = { titular: "FILIT UCM celebra su 20ª edición" }, N2 = { titular: "El auge de los foodtrucks en Talca" };
   function p(t) { return { p: t }; }
   function s(n, t, d, g) { return { n: n, t: t, d: d, g: g || [] }; }
-  var S = [p("Parte 1"), s(1, "Cortina de inicio", "7 s"), s(2, "Bienvenida en cámara", "20 s", [["gc_conductor"]]),
+  var S = [p("Parte 1"), s(1, "Cortina de inicio", "7 s", [["cortina"]]), s(2, "Bienvenida en cámara", "20 s", [["gc_conductor"]]),
     s(3, "Titulares", "20 s", [["totem"]]), s(4, "Presentación nota 1 · FILIT", "10 s", [["zocalo", N1]]),
-    s(5, "Cortina", "7 s"), s(6, "Video nota informativa 1", "2:15"), s(7, "Cortina", "7 s"),
-    s(8, "Comentarios sobre nota", "2 min", [["zocalo", N1]]), s(9, "Cortina", "7 s"), s(10, "Comerciales", "3 min"),
-    p("Parte 2"), s(11, "Cortina", "7 s"), s(12, "Presentación invitado", "25 s", [["gc_invitado"]]),
+    s(5, "Cortina", "7 s", [["cortina"]]), s(6, "Video nota informativa 1", "2:15"), s(7, "Cortina", "7 s", [["cortina"]]),
+    s(8, "Comentarios sobre nota", "2 min", [["zocalo", N1]]), s(9, "Cortina", "7 s", [["cortina"]]), s(10, "Comerciales", "3 min"),
+    p("Parte 2"), s(11, "Cortina", "7 s", [["cortina"]]), s(12, "Presentación invitado", "25 s", [["gc_invitado"]]),
     s(13, "Conversación en estudio", "10 min"), s(14, "Presentación nota 2 · Foodtrucks", "10 s", [["zocalo", N2]]),
-    s(15, "Cortina", "7 s"), s(16, "Video nota informativa 2", "2:15"), s(17, "Cortina", "7 s"),
-    s(18, "Comentarios sobre nota", "2 min"), s(19, "Cortina", "7 s"),
-    s(20, "Cierre y despedida", "1:30", [["gc_invitado"], ["totem"]]), s(21, "Cortina final", "7 s")];
+    s(15, "Cortina", "7 s", [["cortina"]]), s(16, "Video nota informativa 2", "2:15"), s(17, "Cortina", "7 s", [["cortina"]]),
+    s(18, "Comentarios sobre nota", "2 min"), s(19, "Cortina", "7 s", [["cortina"]]),
+    s(20, "Cierre y despedida", "1:30", [["gc_invitado"], ["totem"]]), s(21, "Cortina final", "7 s", [["cortina"]])];
   var draft = {}, step = -1, cap = -1, edit = false, pv = { on: {}, ov: {} };
   var st = function () { return Store.get(); };
   var cfg = function () { return st().data._cfg; };
-  function btns() { var b = cfg().btn; return Array.isArray(b) ? b : Object.values(b || {}); }
+  var OFF = function (sl) { return sl === "logo" ? "" : null; };   // Firebase borra los null: el logo apagado se guarda como ""
+  var DEF = { cortina: { gid: "cortina", key: "F18", label: "Cortina programa", color: "#C8102E" }, logo: { gid: "logo", key: "F22", label: "Logo esquina", color: "#1B2A49" } };
+  function btns() { var b = cfg().btn, L = Array.isArray(b) ? b.slice() : Object.values(b || {});
+    if (!(cfg().mig >= 2)) ["cortina", "logo"].forEach(function (g) { if (!L.some(function (x) { return x.gid === g; })) L.push(clone(DEF[g])); });
+    return L; }
   function arr(v) { return Array.isArray(v) ? v : Object.values(v || {}); }
 
   // ---------- acciones sobre la salida ----------
   function show(x, gid) {
-    var sl = G[gid].slot; x.on[sl] = gid;
+    var sl = G[gid].slot; x.on[sl] = gid; if (gid === "cortina") x.data.cortina.t = Date.now();
     if (x.data._cfg.excl) { if (sl === "gc") x.on.zocalo = null; if (sl === "zocalo") x.on.gc = null; }
   }
   function commit(x, gid) { if (draft[gid]) { x.data[gid] = clone(draft[gid]); delete draft[gid]; } }
   function toggle(gid) {
-    Store.set(function (x) { commit(x, gid); if (x.on[G[gid].slot] === gid) x.on[G[gid].slot] = null; else show(x, gid); });
-    render();
+    Store.set(function (x) { commit(x, gid); if (x.on[G[gid].slot] === gid) x.on[G[gid].slot] = OFF(G[gid].slot); else show(x, gid); });
+    sched(); render();
+  }
+  function sched() {   // la cortina sale sola al terminar el video
+    var c = st().data.cortina, t = c.t; if (!st().on.cortina) return;
+    setTimeout(function () { var y = st(); if (y.on.cortina && y.data.cortina.t === t) Store.set(function (x) { x.on.cortina = null; }); render(); }, ((c.dur || 5) + 0.4) * 1000);
   }
   function take(i) {
     var d = S[i]; if (!d || d.p) return; step = i;
     Store.set(function (x) {
-      x.on = { gc: null, zocalo: null, totem: null };
+      x.on.gc = x.on.zocalo = x.on.totem = x.on.cortina = null;
       d.g.forEach(function (g) { delete draft[g[0]]; if (g[1]) Object.assign(x.data[g[0]], g[1]); show(x, g[0]); });
     });
-    render();
+    sched(); render();
   }
   function pick(i) {
-    var d = S[i]; if (!d || d.p) return; step = i; pv = { on: {}, ov: {} };
+    var d = S[i]; if (!d || d.p) return; step = i; pv = { on: {}, ov: {}, t: Date.now() };
     d.g.forEach(function (g) { pv.on[G[g[0]].slot] = g[0]; if (g[1]) pv.ov[g[0]] = g[1]; });
     render();
   }
@@ -73,7 +83,8 @@
     var x = clone(st());
     Object.keys(draft).forEach(function (g) { x.data[g] = draft[g]; });
     Object.keys(pv.ov).forEach(function (g) { Object.assign(x.data[g], pv.ov[g]); });
-    x.on = { gc: pv.on.gc || null, zocalo: pv.on.zocalo || null, totem: pv.on.totem || null };
+    x.data.cortina.t = pv.t || 0;
+    x.on = { gc: pv.on.gc || null, zocalo: pv.on.zocalo || null, totem: pv.on.totem || null, cortina: pv.on.cortina || null, logo: st().on.logo };
     return x;
   }
   function sendPv() { var f = $("#pvf"); try { f.contentWindow.postMessage(pvState(), "*"); } catch (e) {} }
@@ -102,7 +113,7 @@
       }).join("");
       return '<div class="card' + (isOn(gid) ? " air" : "") + '" data-g="' + gid + '"><h3>' + g.n + '<span class="bd">AL AIRE</span>' +
         (pend ? '<span class="pd">PENDIENTE</span>' : "") + "</h3>" + fs +
-        '<div class="bt"><button class="go" data-a="show">MOSTRAR</button><button class="red" data-a="hide">OCULTAR</button><button data-a="upd">ACTUALIZAR</button><button data-a="pv">VISTA PREVIA</button></div></div>';
+        '<div class="bt">' + (g.h ? '<p class="mut" style="flex:1 1 100%;margin:0">' + g.h + "</p>" : "") + '<button class="go" data-a="show">MOSTRAR</button><button class="red" data-a="hide">OCULTAR</button><button data-a="upd">ACTUALIZAR</button><button data-a="pv">VISTA PREVIA</button></div></div>';
     }).join("");
   }
   function renderBot() {
@@ -145,10 +156,10 @@
   $("#cards").addEventListener("click", function (e) {
     var b = e.target.closest("button"), c = e.target.closest(".card"); if (!b || !c) return;
     var g = c.dataset.g, a = b.dataset.a;
-    if (a === "show") { Store.set(function (x) { commit(x, g); show(x, g); }); }
-    if (a === "hide") { Store.set(function (x) { if (x.on[G[g].slot] === g) x.on[G[g].slot] = null; }); }
+    if (a === "show") { Store.set(function (x) { commit(x, g); show(x, g); }); sched(); }
+    if (a === "hide") { Store.set(function (x) { if (x.on[G[g].slot] === g) x.on[G[g].slot] = OFF(G[g].slot); }); }
     if (a === "upd") { Store.set(function (x) { commit(x, g); }); }
-    if (a === "pv") { pv = { on: (function (o) { o[G[g].slot] = g; return o; })({}), ov: {} }; }
+    if (a === "pv") { pv = { on: (function (o) { o[G[g].slot] = g; return o; })({}), ov: {}, t: Date.now() }; }
     if (document.activeElement) document.activeElement.blur(); render();
   });
   $("#cards").addEventListener("change", function (e) { if (e.target.dataset.k === "active") { var g = e.target.closest(".card").dataset.g;
@@ -156,9 +167,9 @@
   $("#steps").addEventListener("click", function (e) { var b = e.target.closest(".st"); if (b) pick(+b.dataset.i); });
   $("#prv").onclick = function () { move(-1); }; $("#nxt").onclick = function () { move(1); };
   $("#tk").onclick = function () { take(step); };
-  $("#clr").onclick = function () { Store.set(function (x) { x.on = { gc: null, zocalo: null, totem: null }; }); render(); };
+  $("#clr").onclick = function () { Store.set(function (x) { x.on.gc = x.on.zocalo = x.on.totem = x.on.cortina = null; }); render(); };
   $("#tabs").addEventListener("click", function (e) { var v = e.target.dataset.v; if (v) { localStorage.mc_view = v; render(); setTimeout(scale, 30); } });
-  function setBtn(fn) { Store.set(function (x) { var L = arr(x.data._cfg.btn).slice(); fn(L); x.data._cfg.btn = L; }); }
+  function setBtn(fn) { Store.set(function (x) { var L = btns(); fn(L); x.data._cfg.btn = L; x.data._cfg.mig = 2; }); }
   $("#bot").addEventListener("click", function (e) {
     var b = e.target.closest("button"), w = e.target.closest(".bw"); if (!b) return;
     var a = b.dataset.b, i = w ? +w.dataset.i : -1;

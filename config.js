@@ -1,16 +1,20 @@
-/* Maule Central CG · config v1.1.0 */
+/* Maule Central CG · config v1.2.0 */
 window.CFG = {
-  version: "1.1.0",
+  version: "1.2.0",
   sala: "maule-central",
   /* Pega aquí la URL de tu Realtime Database (es pública, no es una clave). Mientras diga PENDIENTE_ usa modo local. */
   databaseURL: "https://maule-central-default-rtdb.firebaseio.com",
   defaults: {
-    on: { gc: null, zocalo: null, totem: null },
+    on: { gc: null, zocalo: null, totem: null, cortina: null, logo: "logo" },
     data: {
       gc_conductor: { l1: "Francisca Azócar", l2: "Conductora" },
       gc_invitado:  { l1: "Carlos Peña", l2: "Analista regional" },
       zocalo: { titular: "FILIT UCM celebra su 20ª edición", tag: "ÚLTIMAS NOTICIAS", apoyo: "PENDIENTE_TEXTO_APOYO" },
+      cortina: { t: 0, dur: 5 },
+      logo: {},
       _cfg: { excl: 1, btn: [
+        { gid: "cortina",      key: "F18", label: "Cortina programa", color: "#C8102E" },
+        { gid: "logo",         key: "F22", label: "Logo esquina",   color: "#1B2A49" },
         { gid: "gc_conductor", key: "F13", label: "GC Conductora", color: "#1B2A49" },
         { gid: "gc_invitado",  key: "F14", label: "GC Invitado",   color: "#1B2A49" },
         { gid: "zocalo",       key: "F15", label: "Zócalo titular", color: "#1B2A49" },

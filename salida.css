@@ -1,4 +1,4 @@
-/* Maule Central CG · salida v1.1.0 · 1920x1080 transparente */
+/* Maule Central CG · salida v1.2.0 · 1920x1080 transparente */
 :root{--az:#1B2A49;--ro:#C8102E;--am:#F5A623;--gr:#E5E7EB;--bl:#fff;--f:Arial,"Helvetica Neue",sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:1920px;height:1080px;overflow:hidden;background:transparent;font:700 26px var(--f)}
@@ -38,3 +38,7 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:transparent;font
 .tr.sel{background:rgba(255,255,255,.14)}
 .tr.sel::before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--am)}
 @media (prefers-reduced-motion:reduce){.tp{animation:none}}
+/* LOGO ESQUINA Y CORTINA */
+.lg{right:60px;top:24px;width:380px;height:auto;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45))}
+#cortina{z-index:9;opacity:0;transition:opacity .15s}#cortina.on{opacity:1}
+#cv{display:block;width:1920px;height:1080px;object-fit:fill}
