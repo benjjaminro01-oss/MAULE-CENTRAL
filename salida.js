@@ -1,4 +1,4 @@
-/* Maule Central CG · salida v1.3.7 */
+/* Maule Central CG · salida v1.3.8 */
 (function () {
   var $ = function (i) { return document.getElementById(i); };
   var q = location.search, demo = /[?&]demo/.test(q), prev = /[?&]preview/.test(q);
@@ -69,8 +69,8 @@
     li.style.width = lw + "px";
     if (km && !lfail) {   // modo chroma: logo con borde duro, generado al tamaño exacto (sin escalar ni semitransparencias)
       sz = Math.max(20, Math.min(120, Math.round(sz / 5) * 5)); lw = Math.round(380 * sz / 100); li.style.width = lw + "px";
-      var ls = "logos/logo_" + lw + ".png?v=1.3.7"; if (li.getAttribute("src") !== ls) {
-        li.onerror = function () { lfail = true; li.onerror = null; li.setAttribute("src", "logo.png?v=1.3.7"); };   // si falta la carpeta logos, usa logo.png
+      var ls = "logos/logo_" + lw + ".png?v=1.3.8"; if (li.getAttribute("src") !== ls) {
+        li.onerror = function () { lfail = true; li.onerror = null; li.setAttribute("src", "logo.png?v=1.3.8"); };   // si falta la carpeta logos, usa logo.png
         li.setAttribute("src", ls); }
     }
   }

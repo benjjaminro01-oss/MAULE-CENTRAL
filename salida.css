@@ -1,4 +1,4 @@
-/* Maule Central CG · salida v1.3.7 · 1920x1080 transparente */
+/* Maule Central CG · salida v1.3.8 · 1920x1080 transparente */
 :root{--az:#1B2A49;--ro:#C8102E;--am:#F5A623;--gr:#E5E7EB;--bl:#fff;--f:Arial,"Helvetica Neue",sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:1920px;height:1080px;overflow:hidden;background:transparent;font:700 26px var(--f)}
@@ -60,3 +60,6 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:transparent;font
 .chroma .tp{animation:none}   /* el flotado mueve los bordes todo el tiempo y ensucia la llave */
 .corte .a,.corte .on .a,.corte .w,.corte .on .w{transition:none!important}
 .a,.cr{will-change:transform}   /* animaciones en la tarjeta gráfica (GPU) */
+/* el GC de persona vuelve a entrar con barrido también en modo chroma (la regla .chroma .a lo había anulado) */
+.chroma .a.w{transition:clip-path .4s ease-in var(--o,0s),opacity 0s linear calc(var(--o,0s) + .5s)}
+.chroma .on .a.w{transition:clip-path .6s cubic-bezier(.2,.9,.25,1) var(--d,0s),opacity 0s linear 0s}
